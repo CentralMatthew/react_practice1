@@ -1,25 +1,43 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Characters from "./components/Characters";
+import Inventory from "./components/Inventory";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import DetailsAboutChars from "./components/DetailsAboutChars";
+import DetailsAboutInventory from "./components/DetailsAboutInventory";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <Router>
+                <Link to={'/character'}>Characters</Link>
+                <br/>
+                <Link to={'/inventory'}>Inventory</Link>
+                <Switch>
+                    <Route exact={true} path={'/character'} render={(props) => {
+                        return <Characters {...props}/>
+                    }}/>
+                    <Route exact={true} path={'/inventory'} render={(props) => {
+                        return <Inventory {...props}/>
+                    }}/>
+                    <Route exact={true} path={'/character/:id'} render={(props) => {
+                        let {match:{params:{id}}} = props
+                        return <DetailsAboutChars charId = {id}/>
+                    }}/>
+                    <Route exact={true} path={'/inventory/:id'} render={(props) => {
+                        let {match:{params:{id}}} = props
+                        return <DetailsAboutInventory inventoryId = {id}/>
+                    }}/>
+                </Switch>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
